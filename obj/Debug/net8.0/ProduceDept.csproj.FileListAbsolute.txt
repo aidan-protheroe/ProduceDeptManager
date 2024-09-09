@@ -1,0 +1,14 @@
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\bin\Debug\net8.0\ProduceDept.exe
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\bin\Debug\net8.0\ProduceDept.deps.json
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\bin\Debug\net8.0\ProduceDept.runtimeconfig.json
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\bin\Debug\net8.0\ProduceDept.dll
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\bin\Debug\net8.0\ProduceDept.pdb
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.AssemblyInfoInputs.cache
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.AssemblyInfo.cs
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.csproj.CoreCompileInputs.cache
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.dll
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\refint\ProduceDept.dll
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.pdb
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.genruntimeconfig.cache
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ref\ProduceDept.dll
