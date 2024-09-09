@@ -12,3 +12,4 @@ C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\refint\Pr
 C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.pdb
 C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.genruntimeconfig.cache
 C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ref\ProduceDept.dll
+C:\Users\amp09\Desktop\ProduceDeptConsole\ProduceDept\obj\Debug\net8.0\ProduceDept.sourcelink.json

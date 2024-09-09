@@ -9,30 +9,30 @@ namespace ProduceDept {
             BackStock bs = new BackStock();
             FrontEnd fe = new FrontEnd(bs);
             Player Player = new Player(bs, fe);
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
             Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
 
             Console.WriteLine("Stocking Apples");
             Player.Stock("Apples");
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
             Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
 
             Console.WriteLine("Sold 30 Apples");
-            fe.Apples -= 30;
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            fe.Displays["Apples"]["Current"] -= 30;
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
 
             Console.WriteLine("Stocking Apples");
             Player.Stock("Apples");
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
             Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
 
             Console.WriteLine("Sold 60 Apples");
-            fe.Apples -= 60;
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            fe.Displays["Apples"]["Current"] -= 60;
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
 
             Console.WriteLine("Stocking Apples");
             Player.Stock("Apples");
-            Console.WriteLine(fe.Apples + " Apples in FrontEnd");
+            Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
             Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
         }
     }
@@ -57,24 +57,40 @@ namespace ProduceDept {
                 }
             } 
         };
-        public float AppleCases = 2;
         public int ApplesPerCase = 52;
-        public float BananaCases = 3;
         public int BananasPerCase = 60;
-        public float OrangeCases = 1;
         public int OrangesPerCase = 46;
 
         public int Boxes = 0;
     }
 
     class FrontEnd {
-        public  int MaxApples = 60;
-        public  int Apples = 32;
+        public Dictionary<string, Dictionary<string, int>> Displays = new Dictionary<string, Dictionary<string, int>>() {
+            { "Apples", new Dictionary<string, int>() {
+                { "Max", 60 },
+                { "Current", 32 },
+                }
+            },
+            {
+                "Bananas", new Dictionary<string, int>() {
+                    { "Max", 46 },
+                    { "Current", 23 },
+                }
+            },
+            {
+                "Oranges", new Dictionary<string, int>() {
+                    { "Max", 30 },
+                    { "Current", 20 },
+                }
+            }
+        };
+        public int MaxApples = 60;
+        public int Apples = 32;
 
-        public  int MaxBananas = 46;
-        public  int Bananas = 23;
+        public int MaxBananas = 46;
+        public int Bananas = 23;
 
-        public  int MaxOranges = 30;
+        public int MaxOranges = 30;
         public int Oranges = 20;
 
         public BackStock BackStock;
@@ -82,27 +98,10 @@ namespace ProduceDept {
         public FrontEnd(BackStock bs) {
             BackStock = bs;
         }
-
-        public void Stock(string Item) {
-            if (Item == "Apples" & BackStock.AppleCases > 0) {
-                if (BackStock.ApplesPerCase * BackStock.AppleCases > MaxApples - Apples ) {
-                    int UsedApples = MaxApples - Apples;
-                    BackStock.AppleCases -= (float) ((float)UsedApples / (float)BackStock.ApplesPerCase);
-                    Console.WriteLine(BackStock.AppleCases);
-                    Apples = MaxApples;
-                } else {
-                    Apples += (int)(BackStock.ApplesPerCase * BackStock.AppleCases);
-                    BackStock.AppleCases = 0;
-                }
-                
-            } else if (Item == "Bananas") {
-            
-            } else if (Item == "Oranges") {
-            }
-        }
     }
 
     class Player {
+        
 
         public BackStock BackStock;
         public FrontEnd FrontEnd;
@@ -113,18 +112,20 @@ namespace ProduceDept {
         }
 
         public void Stock(string Item) {
-            Dictionary<string, float> CurrentItem = BackStock.Stock[Item];
-            if (CurrentItem["Cases"] > 0) {
-                if (CurrentItem["PerCase"] * CurrentItem["Cases"] > FrontEnd.MaxApples - FrontEnd.Apples ) {
-                    int UsedApples = FrontEnd.MaxApples - FrontEnd.Apples;
-                    CurrentItem["Cases"] -= (float) ((float)UsedApples / (float)CurrentItem["PerCase"]);
-                    Console.WriteLine(CurrentItem["Cases"]);
-                    Console.WriteLine(BackStock.AppleCases);
-                    FrontEnd.Apples = FrontEnd.MaxApples;
-                    BackStock.Stock[Item] = CurrentItem;
+            Dictionary<string, float> BackStockItem = BackStock.Stock[Item];
+            Dictionary<string, int> FrontEndDisplay = FrontEnd.Displays[Item];
+            if (BackStockItem["Cases"] > 0) {
+                if (BackStockItem["PerCase"] * BackStockItem["Cases"] > FrontEndDisplay["Max"] - FrontEndDisplay["Current"] ) {
+                    int Stocked = FrontEndDisplay["Max"] - FrontEndDisplay["Current"];
+                    BackStockItem["Cases"] -= (float) ((float)Stocked / (float)BackStockItem["PerCase"]);
+                    FrontEndDisplay["Current"] = FrontEndDisplay["Max"];
+                    BackStock.Stock[Item] = BackStockItem;
+                    FrontEnd.Displays[Item] = FrontEndDisplay;
                 } else {
-                    FrontEnd.Apples += (int)(CurrentItem["PerCase"] * CurrentItem["Cases"]);
+                    FrontEndDisplay["Current"] += (int)(BackStockItem["PerCase"] * BackStockItem["Cases"]);
                     BackStock.Stock[Item]["Cases"] = 0;
+                    FrontEnd.Displays[Item] = FrontEndDisplay;
+
                 }
                 
             }
