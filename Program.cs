@@ -98,9 +98,6 @@ namespace ProduceDept {
                 }
             }
         };
-
-
-
     }
 
     class Player {
@@ -148,6 +145,11 @@ namespace ProduceDept {
                 }
                 BackStock.Stock[Item] = BackStockItem;
                 FrontEnd.Displays[Item] = FrontEndDisplay;
+
+                float TimeSpent = (float) ((float)Stocked / (float)BackStockItem["PerCase"]) * Items[Item]["Time"];
+                Time -= TimeSpent;
+                Console.WriteLine("Time left: " + Time);
+
                 return "Stocked " + Stocked + " " + Item;;
             } else {
                 return "No " + Item + " in BackStock"; 
@@ -155,3 +157,5 @@ namespace ProduceDept {
         }
     }
 }
+
+//Add an algoerith mfor time used per case(which is the players item["time"] value = per case so use caseamount/amoutn stocked * time and subtract it from the players total time)
