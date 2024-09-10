@@ -10,12 +10,12 @@ namespace ProduceDept {
             FrontEnd fe = new FrontEnd();
             Player Player = new Player(bs, fe);
             Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
-            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
+            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.Stock["Apples"]["PerCase"]) + "Apples in BS");
 
             Console.WriteLine("Stocking Apples");
             Console.WriteLine(Player.Stock("Apples"));
             Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
-            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
+            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.Stock["Apples"]["PerCase"]) + "Apples in BS");
 
             Console.WriteLine("Sold 30 Apples");
             fe.Displays["Apples"]["Current"] -= 30;
@@ -24,7 +24,7 @@ namespace ProduceDept {
             Console.WriteLine("Stocking Apples");
             Console.WriteLine(Player.Stock("Apples"));
             Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
-            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
+            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.Stock["Apples"]["PerCase"]) + "Apples in BS");
 
             Console.WriteLine("Sold 60 Apples");
             fe.Displays["Apples"]["Current"] -= 60;
@@ -33,12 +33,12 @@ namespace ProduceDept {
             Console.WriteLine("Stocking Apples");
             Console.WriteLine(Player.Stock("Apples"));
             Console.WriteLine(fe.Displays["Apples"]["Current"] + " Apples in FrontEnd");
-            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.ApplesPerCase) + "Apples in BS");
+            Console.WriteLine((bs.Stock["Apples"]["Cases"] * bs.Stock["Bananas"]["PerCase"]) + "Apples in BS");
 
             Console.WriteLine("Stocking Bananas");
             Console.WriteLine(Player.Stock("Bananas"));
             Console.WriteLine(fe.Displays["Bananas"]["Current"] + " Bananas in FrontEnd");
-            Console.WriteLine((bs.Stock["Bananas"]["Cases"] * bs.BananasPerCase) + "Bananas in BS");
+            Console.WriteLine((bs.Stock["Bananas"]["Cases"] * bs.Stock["Bananas"]["PerCase"]) + "Bananas in BS");
 
             Console.WriteLine("Sold 40 Bananas");
             fe.Displays["Bananas"]["Current"] -= 40;
@@ -47,8 +47,30 @@ namespace ProduceDept {
             Console.WriteLine("Stocking Bananas");
             Console.WriteLine(Player.Stock("Bananas"));
             Console.WriteLine(fe.Displays["Bananas"]["Current"] + " Bananas in FrontEnd");
-            Console.WriteLine((bs.Stock["Bananas"]["Cases"] * bs.BananasPerCase) + "Bananas in BS");
+            Console.WriteLine((bs.Stock["Bananas"]["Cases"] * bs.Stock["Bananas"]["PerCase"]) + "Bananas in BS");
         }
+    }
+
+    class Department {
+        public FrontEnd FrontEnd = new FrontEnd();
+        public BackStock BackStock = new BackStock();
+        public Player Player;
+
+        public Dictionary<string, Item> Items = new Dictionary<string, Item>() {
+            { "Apples", new Item("Apples", 2f, 52f, 60, 35, 0.5f) },
+            { "Bananas", new Item("Bananas", 3f, 60f, 46, 30, 0.15f) },
+            { "Oranges", new Item("Oranges", 1f, 46f, 30, 28, 0.2f) },
+            { "Lemons", new Item("Lemons", 2f, 56f, 50, 20, 0.25f) },
+            { "Lettuce", new Item("Lettuce", 1f, 30f, 16, 13, 0.1f) }
+        };
+
+        public int EmptyBoxes = 0;
+
+        public Department() {
+            Player = new Player(BackStock, FrontEnd);
+        }
+
+
     }
 
     class BackStock {
@@ -69,12 +91,20 @@ namespace ProduceDept {
                     { "Cases", 1f },
                     { "PerCase", 46f },
                 }
-            } 
+            },
+            {
+                "Lemons", new Dictionary<string, float>() {
+                    { "Cases", 2f },
+                    { "PerCase", 56f },
+                }
+            },
+            {
+                "Lettuce", new Dictionary<string, float>() {
+                    { "Cases", 1f },
+                    { "PerCase", 30f },
+                }
+            }
         };
-        public int ApplesPerCase = 52;
-        public int BananasPerCase = 60;
-        public int OrangesPerCase = 46;
-
         public int Boxes = 0;
     }
 
@@ -96,6 +126,18 @@ namespace ProduceDept {
                     { "Max", 30 },
                     { "Current", 20 },
                 }
+            },
+            {
+                "Lemons", new Dictionary<string, int>() {
+                    { "Max", 50 },
+                    { "Current", 28 },
+                }
+            },
+            {
+                "Lettuce", new Dictionary<string, int>() {
+                    { "Max", 16 },
+                    { "Current", 15 },
+                }
             }
         };
     }
@@ -113,7 +155,17 @@ namespace ProduceDept {
             },
             {
                 "Oranges", new Dictionary<string, float>() {
-                    { "Time", .25f }
+                    { "Time", .2f }
+                }
+            },
+            {
+                "Lemons", new Dictionary<string, float>() {
+                    { "Time", .3f }
+                }
+            },
+            {
+                "Lettuce", new Dictionary<string, float>() {
+                    { "Time", .15f }
                 }
             }
         };
@@ -156,6 +208,28 @@ namespace ProduceDept {
             }
         }
     }
+
+    class Item {
+        public string Name;
+        public float Cases;
+        public float PerCase;
+        public int MaxStocked;
+        public int CurrentStocked;
+        public float TimeToStock;
+
+        public Item(string Name, float Cases, float PerCase, int MaxStocked, int CurrentStocked, float TimeToStock) {
+            this.Name = Name;
+            this.Cases = Cases;
+            this.PerCase = PerCase;
+            this.MaxStocked = MaxStocked;
+            this.CurrentStocked = CurrentStocked;
+            this.TimeToStock = TimeToStock;
+        }
+    }
 }
 
-//Add an algoerith mfor time used per case(which is the players item["time"] value = per case so use caseamount/amoutn stocked * time and subtract it from the players total time)
+//add a customer class that randomly shops items. (Right now) they wont shop from the display your're currently stocking.
+
+//make a class called item, store ALL the item stats there, and instance it out to the backstock and frontend and player?
+
+//When a case is emptied, add a cardboard box to the backstock 
